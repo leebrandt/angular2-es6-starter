@@ -2,6 +2,12 @@
 let path = require('path');
 let webpack = require('webpack');
 let config = require('./index').client;
+let coverageEnabled = process.env.COVERAGE_ENABLED === 'true';
+let babelPlugins = [];
+
+if (coverageEnabled) {
+  babelPlugins.push('__coverage__');
+}
 
 module.exports = {
   entry: {
@@ -19,16 +25,17 @@ module.exports = {
         loader: 'babel',
         exclude: /(node_modules)/,
         query: {
-          presets: ['es2015'],
-          plugins: [
-            'transform-decorators-legacy',
-            'transform-class-properties'
-          ]
+          presets: ['es2015', 'angular2'],
+          plugins: babelPlugins
         }
       },
       {
         test: /\.html$/,
         loader: 'raw?minimize=false'
+      },
+      {
+        test: /\.json$/,
+        loader: 'json'
       }
     ],
     noParse: [ /.+zone\.js\/dist\/.+/, /.+angular2\/bundles\/.+/ ]
@@ -48,5 +55,5 @@ module.exports = {
     )
   ],
 
-  devtool: 'eval'
+  devtool: 'cheap-source-map'
 };

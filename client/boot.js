@@ -1,22 +1,24 @@
-import 'es6-shim';
-import 'reflect-metadata';
-import 'zone.js/dist/zone-microtask';
-import 'rxjs/Rx';
-import { bootstrap } from 'angular2/platform/browser';
-import { enableProdMode, provide } from 'angular2/core';
-import { AppComponent } from './app/app';
-import { ROUTER_PROVIDERS, LocationStrategy, HashLocationStrategy } from 'angular2/router';
-import { HTTP_PROVIDERS } from 'angular2/http';
-import { PostService } from './app/services/post';
-import { UserService } from './app/services/user';
+import './shim';
+import 'rxjs/add/operator/map';
+import { bootstrap } from '@angular/platform-browser-dynamic';
+import { enableProdMode, provide } from '@angular/core';
+import { AppComponent } from './app/core/components/app/app.component';
+import { ROUTER_PROVIDERS } from '@angular/router-deprecated';
+import { FORM_PROVIDERS, LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { HTTP_PROVIDERS } from '@angular/http';
+import { AUTH_PROVIDERS } from './app/auth';
+import { POSTS_PROVIDERS } from './app/posts';
 
 if (ENVIRONMENT === 'production') {
   enableProdMode();
 }
 
 bootstrap(AppComponent, [
+  FORM_PROVIDERS,
   HTTP_PROVIDERS,
   ROUTER_PROVIDERS,
+  AUTH_PROVIDERS,
+  POSTS_PROVIDERS,
   provide(LocationStrategy, { useClass: HashLocationStrategy }),
-  PostService, UserService
+  provide('ENVIRONMENT', { useValue: ENVIRONMENT })
 ]);

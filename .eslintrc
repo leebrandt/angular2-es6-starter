@@ -364,9 +364,13 @@
     "it": true,
     "inject": true,
     "injectAsync": true,
+    "beforeEach": true,
+    "beforeEachProviders": true,
+    "spyOn": true,
     "expect": true,
     "global": true,
     "require": true,
+    "async": true,
     "ENVIRONMENT": true
   }
 }
